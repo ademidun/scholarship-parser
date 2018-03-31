@@ -1,1 +1,19 @@
-{{ parser_form.as_p }}
+<div style="margin: 3%">
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'parser_home' %}" method="post">
+    {% csrf_token %}
+    <input style="width: 337px" type="text" name="url" id="url" title="Url"
+           onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }"/>
+    <input type="submit" value="Parse"/>
+</form>
+
+
+{% if response_data %}
+    <h3>Response</h3>
+    <pre>
+        {{ response_data }}
+    </pre>
+{% endif %}
+
+</div>

@@ -1,6 +1,8 @@
-from django.http import JsonResponse, HttpResponse
-from django.shortcuts import render
 import json
+
+from django.http import JsonResponse
+from django.shortcuts import render
+
 from .forms import *
 from .parse import get_keywords
 
@@ -8,12 +10,19 @@ from .parse import get_keywords
 def parser_home(request):
     context = {}
     if request.method == 'POST':
-        parser_form = ParserForm(request.POST)
+        print('request.POST', request.POST)
+        print('request.POST', request.POST['url'])
 
-        if parser_form.is_valid():
-            print('valid')
-        else:
-            print('invalid')
+        url = request.POST['url']
+        scholarship = get_keywords(url)
+        response_data = {
+            'scholarship': scholarship,
+            'url': request.POST['url'],
+            'metadata': {},
+            'status': 'success'
+        }
+
+        context['response_data'] = json.dumps(response_data, indent=2, sort_keys=True)
 
     else:
         parser_form = ParserForm(request.POST or None)
@@ -36,6 +45,6 @@ def parse(request):
             'status': 'success'
         }
 
-        return JsonResponse(response_data, json_dumps_params={'indent': 2,'sort_keys': True})
+        return JsonResponse(response_data, json_dumps_params={'indent': 2, 'sort_keys': True})
     except KeyError:
         return JsonResponse({"error": "Please pass a URL"})
