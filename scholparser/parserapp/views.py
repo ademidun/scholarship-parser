@@ -22,6 +22,9 @@ def parser_home(request):
             'status': 'success'
         }
 
+        if 'title' in scholarship:
+            context['title'] = scholarship['title']
+
         context['response_data'] = json.dumps(response_data, indent=2, sort_keys=True)
 
     else:

@@ -1,19 +1,27 @@
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+
 <div style="margin: 3%">
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-
-<form action="{% url 'parser_home' %}" method="post">
-    {% csrf_token %}
-    <input style="width: 337px" type="text" name="url" id="url" title="Url"
-           onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }"/>
-    <input type="submit" value="Parse"/>
-</form>
+    <h3>Scholarship Parser</h3>
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
 
-{% if response_data %}
-    <h3>Response</h3>
-    <pre>
+    <form action="{% url 'parser_home' %}" method="post">
+        {% csrf_token %}
+        <input style="width: 337px" type="text" name="url" id="url" title="Url"
+               onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }"/>
+        {#    <input type="submit" value="Parse"/>#}
+        <button type="submit" class="btn btn-primary">Parse</button>
+    </form>
+
+
+    {% if response_data %}
+        <h3>Response{% if response_data %}: {{ title }} {% endif %}</h3>
+        <pre>
         {{ response_data }}
     </pre>
-{% endif %}
+    {% endif %}
 
 </div>
