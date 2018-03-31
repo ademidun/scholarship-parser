@@ -1,10 +1,12 @@
-from .forms import *
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
-from django.http import JsonResponse
+import json
+from .forms import *
+from .parse import get_keywords
 
 
-# Create your views here.
 def parser_home(request):
+    context = {}
     if request.method == 'POST':
         parser_form = ParserForm(request.POST)
 
@@ -21,11 +23,19 @@ def parser_home(request):
 
     return render(request, "parserapp/parser.html", context)
 
+
 def parse(request):
     try:
         parse_url = request.GET['url']
-        return JsonResponse({"Success": "This has been parsed"})
+        keywords = get_keywords(parse_url)
+
+        response_data = {
+            'scholarship': keywords,
+            'url': parse_url,
+            'metadata': {},
+            'status': 'success'
+        }
+
+        return JsonResponse(response_data, json_dumps_params={'indent': 2,'sort_keys': True})
     except KeyError:
         return JsonResponse({"error": "Please pass a URL"})
-
-
