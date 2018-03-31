@@ -16,16 +16,16 @@ def parser_home(request):
         url = request.POST['url']
         scholarship = get_keywords(url)
         response_data = {
-            'scholarship': scholarship,
             'url': request.POST['url'],
+            'status': 'success',
+            'scholarship': scholarship,
             'metadata': {},
-            'status': 'success'
         }
 
         if 'title' in scholarship:
             context['title'] = scholarship['title']
 
-        context['response_data'] = json.dumps(response_data, indent=2, sort_keys=True)
+        context['response_data'] = json.dumps(response_data, indent=2)
 
     else:
         parser_form = ParserForm(request.POST or None)

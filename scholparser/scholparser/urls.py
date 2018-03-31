@@ -18,6 +18,7 @@ from django.urls import path
 from parserapp import views
 
 urlpatterns = [
+    path('', views.parser_home, name='parser_home'),
     path('admin/', admin.site.urls),
     path('parser-home', views.parser_home, name='parser_home'),
     path('parse', views.parse),
