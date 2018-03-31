@@ -19,5 +19,6 @@ from parserapp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('parser', views.parser),
+    path('parser-home', views.parser_home),
+    path('parse', views.parse),
 ]
